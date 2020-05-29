@@ -19,6 +19,14 @@ class List extends React.Component {
             console.log(response.data)
         })   
     }
+    //Adding delete request
+    removeUser = (x) => {
+        axios.delete(`https://jsonplaceholder.typicode.com/users/${x.id}`)
+          .then(res => {
+            
+            console.log(res.data);
+          })
+      }
     
     // Adding a Post Request
     handleNameChange = event => {
@@ -69,7 +77,7 @@ class List extends React.Component {
          <td>{x.username}</td>
          <td>
            <button>Edit</button>
-           <button>Delete</button>
+           <button onClick={()=>this.removeUser(x)}>Delete</button>
          </td>
        </tr>)
         })}
