@@ -6,7 +6,9 @@ class List extends React.Component {
     constructor() {
         super();
         this.state={
-            users:[]
+            users:[],
+            name:"",
+            userName:""
         };
 
       }
@@ -15,14 +17,42 @@ class List extends React.Component {
         .then(response =>{
             this.setState({users:response.data})
             console.log(response.data)
-            
-
-        })
-        
+        })   
     }
+    
+    // Adding a Post Request
+    handleNameChange = event => {
+        this.setState({ name: event.target.value });
+      }
+    handleUserNameChange = event => {
+        this.setState({ userName: event.target.value });
+      }
+    addUser = event => {
+        event.preventDefault();
+        axios.post("https://jsonplaceholder.typicode.com/users", {
+            "name": this.state.name,
+            "username": this.state.userName,
+            "email": "Sincere@april.biz"
+            
+              
+        })
+          .then(response =>{
+            console.log(response.data)
+        })
+      }
+
     render() {
       return(
       <div>
+          <form>
+            <label> Name:
+            <input type="text" name="name" value={this.state.name} onChange={this.handleNameChange} />
+            </label>
+            <label> UserName:
+            <input type="text" name="username" value={this.state.userName} onChange={this.handleUserNameChange} />
+            </label>
+          <button type="submit" onClick={this.addUser}>Add</button>
+        </form>
           <table>
     <thead>
       <tr>
@@ -34,7 +64,7 @@ class List extends React.Component {
     <tbody>
         {this.state.users.map(x=>{
             return(
-         <tr>
+         <tr key={x.id}>
          <td>{x.name}</td>
          <td>{x.username}</td>
          <td>
